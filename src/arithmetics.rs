@@ -3,7 +3,7 @@ use std::{
     ops::{Add, Mul, Shr},
 };
 
-use num::Num;
+use num::Unsigned;
 
 pub struct Farey<T> {
     pub num: T,
@@ -29,7 +29,7 @@ where
 
 impl<T> PartialEq for Farey<T>
 where
-    T: Num + Clone,
+    T: Unsigned + Clone,
 {
     fn eq(&self, other: &Self) -> bool {
         self.den == other.den && self.num == other.num
@@ -38,7 +38,7 @@ where
 
 impl<T> PartialOrd for Farey<T>
 where
-    T: Num + Clone + Ord,
+    T: Unsigned + Clone + Ord,
 {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         let lhs = self.num.clone() * other.den.clone();
@@ -66,7 +66,7 @@ where
 
 fn approx_right<T>(f1: &Farey<T>, f: &Farey<T>, f2: &Farey<T>, m: &T, allow_equal: bool) -> Farey<T>
 where
-    T: Clone + Num + Ord + PartialOrd + Shr<Output = T>,
+    T: Clone + Unsigned + Ord + PartialOrd + Shr<Output = T>,
 {
     if is_beyond(f1, f2, m) {
         return Farey {
@@ -109,7 +109,7 @@ where
 
 fn approx_left<T>(f1: &Farey<T>, f: &Farey<T>, f2: &Farey<T>, m: &T, allow_equal: bool) -> Farey<T>
 where
-    T: Clone + Num + Ord + PartialOrd + Shr<Output = T>,
+    T: Clone + Unsigned + Ord + PartialOrd + Shr<Output = T>,
 {
     if is_beyond(f1, f2, m) {
         return Farey {
@@ -152,7 +152,7 @@ where
 
 pub fn squeeze_right_first<T>(f1: &mut Farey<T>, f: &Farey<T>, f2: &mut Farey<T>, m: &T)
 where
-    T: Clone + Num + Ord + PartialOrd + Shr<Output = T>,
+    T: Clone + Unsigned + Ord + Shr<Output = T>,
 {
     loop {
         let nf2 = approx_right(f1, f, f2, m, true);

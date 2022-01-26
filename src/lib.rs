@@ -3,7 +3,7 @@ mod arithmetics;
 use std::ops::{DivAssign, Rem, Shr};
 
 use arithmetics::*;
-use num::Num;
+use num::{Num, Unsigned};
 
 fn gcd<T>(x: T, y: T) -> T
 where
@@ -20,7 +20,7 @@ where
 
 pub fn get_closest_fraction<T>(num: &T, den: &T, max_den: &T) -> (Farey<T>, Farey<T>)
 where
-    T: Clone + Num + Ord + PartialOrd + Shr<Output = T> + DivAssign,
+    T: Clone + Unsigned + Ord + PartialOrd + Shr<Output = T> + DivAssign,
 {
     let (mut x, mut y) = (num.clone(), den.clone());
     let g = gcd(x.clone(), y.clone());
